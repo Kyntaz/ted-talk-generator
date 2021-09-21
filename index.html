@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>TED Talk Generator</title>
+        <script src="./papaparse.min.js"></script>
+    </head>
+    
+    <body>
+        <h1 id="title"></h1>
+        <button id="button">New TED Talk!</button>
+
+        <script type="module">
+            import TEDGen from "./tedgen.mjs";
+            
+            const titleElement = document.querySelector("#title");
+            const buttonElement = document.querySelector("#button");
+            const generator = new TEDGen();
+
+            function writeTitle() {
+                titleElement.innerHTML = generator.generate();
+            }
+
+            generator.buildNGrams("./ted_main.csv", 3, () => {writeTitle()});
+            buttonElement.addEventListener("click", writeTitle);
+        </script>
+
+    </body>
+</html>

@@ -1,1 +1,1 @@
-# ted-talk-generator
+# TED Talk Generator
