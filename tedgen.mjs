@@ -4,33 +4,26 @@ export default class TEDGen {
     nGrams = [];
 
     buildNGrams(url, n=2, callback=null) {
-        Papa.parse(url, {
-            download: true,
-            header: true,
-            worker: false,
-            step: (results) => {
-                let title = results.data.name ?? "";
-                if (title.length < 1) {
-                    return;
-                }
-                let titleClean = title.slice(title.indexOf(":") + 2);
-                let words = titleClean.split(" ");
+        fetch(url)
+        .then(response => response.json())
+        .then(titles => {
+            for (let words of titles) {
                 words.splice(0, 0, TEDGen.START);
                 words.push(TEDGen.END);
-                for (let nn = n; nn >= 2; nn--) {
-                    for (let i = 0; i <= words.length - nn; i++) {
-                        this.nGrams.push(words.slice(i, i+nn));
+                for (let m = n; m >= 2; m--) {
+                    for (let i = 0; i <= words.length - m; i++) {
+                        this.nGrams.push(words.slice(i, i+m));
                     }
                 }
-            },
-            complete: callback,
+            }
+            callback();
         });
     }
 
     generate() {
         let words = [TEDGen.START];
         while (words.at(-1) != TEDGen.END) {
-            let possibilities = this.nGrams.filter((nGram) => nGram[0] == words[words.length - 1]);
+            let possibilities = this.nGrams.filter((nGram) => nGram[0] == words.at(-1));
             let nGram = possibilities[Math.floor(Math.random() * possibilities.length)];
             words.push(...nGram.slice(1));
         }

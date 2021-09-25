@@ -20,7 +20,7 @@
                 titleElement.innerHTML = generator.generate();
             }
 
-            generator.buildNGrams("./ted_main.csv", 3, () => {writeTitle()});
+            generator.buildNGrams("./titles.json", 3, () => {writeTitle()});
             buttonElement.addEventListener("click", writeTitle);
         </script>
 
