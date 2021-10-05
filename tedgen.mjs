@@ -56,24 +56,26 @@ export default class TEDGen {
         const titleWords = title.split(" ");
 
         // Build n-grams
-        let limitDocs = 3;
-        for (const document of this.data) {
-            const shouldInclude = titleWords
-                .filter(el => document.titleWords.indexOf(el) > -1)
-                .length > 1;
-            if (shouldInclude && Math.random() < 0.5) {
-                let words = document.transcriptWords;
-                words.splice(0, 0, TEDGen.START);
-                words.push(TEDGen.END);
-                nGrams.push(...this.makeNGrams(words, 30));
-                if (limitDocs-- < 0) break;
+        while (nGrams.length <= 1) {
+            let limitDocs = 3;
+            for (const document of this.data) {
+                const shouldInclude = titleWords
+                    .filter(el => document.titleWords.indexOf(el) > -1)
+                    .length > 1;
+                if (shouldInclude && Math.random() < 0.5) {
+                    let words = document.transcriptWords;
+                    words.splice(0, 0, TEDGen.START);
+                    words.push(TEDGen.END);
+                    nGrams.push(...this.makeNGrams(words, 10));
+                    if (limitDocs-- < 0) break;
+                }
             }
         }
 
         // Generate
         console.log("Generating");
         const words = [TEDGen.START];
-        let limitGen = 100;
+        let limitGen = 300;
         while (words.at(-1) != TEDGen.END) {
             let possibilities = nGrams.filter((nGram) => nGram[0] == words.at(-1));
             if (limitGen < 0) {
