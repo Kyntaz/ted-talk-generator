@@ -1,12 +1,12 @@
 <html>
     <head>
-        <title>TED Talk Generator</title>
+        <title>TEDx: Wonderland</title>
         <link rel="stylesheet" href="style.css">
-        <script src="./papaparse.min.js"></script>
     </head>
     
     <body>
         <h1 id="title"></h1>
+        <p id="transcript"></p>
         <button id="button">New TED Talk!</button>
 
         <script type="module">
@@ -14,14 +14,19 @@
             
             const titleElement = document.querySelector("#title");
             const buttonElement = document.querySelector("#button");
+            const transcriptElement = document.querySelector("#transcript");
             const generator = new TEDGen();
 
-            function writeTitle() {
-                titleElement.innerHTML = generator.generate();
+            function write() {
+                const title = generator.generateTitle();
+                titleElement.innerHTML = title;
+                transcriptElement.innerHTML = generator.generateTranscript(title);
             }
 
-            generator.buildNGrams("./titles.json", 3, () => {writeTitle()});
-            buttonElement.addEventListener("click", writeTitle);
+
+
+            generator.buildNGrams("./data.json", 3, () => {write()});
+            buttonElement.addEventListener("click", write);
         </script>
 
     </body>
