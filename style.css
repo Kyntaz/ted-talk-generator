@@ -1,8 +1,5 @@
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    text-align: center;
     background-color: rgb(0, 0, 0);
 }
 
@@ -13,6 +10,7 @@ body {
 }
 
 #transcript {
+    margin: auto;
     width: 70%;
     color: white;
     font-family: sans-serif;
@@ -20,6 +18,7 @@ body {
 }
 
 #button {
+    margin: 20px;
     font-weight: bold;
     padding: 10px;
     font-size: large;
